@@ -1,0 +1,223 @@
+body {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  padding-top: 56px;
+  /* Space for fixed navbar */
+}
+body, html {
+  height: 100%;
+}
+
+.footer {
+  background-color: #343a40;
+  color: white;
+  text-align: center;
+}
+
+.new-body-container {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  padding-bottom: 100px;
+  color: #343a40;
+  margin: 0;
+}
+
+.content-container {
+  padding-bottom: 100px;
+}
+
+.sidebar {
+  height: 100vh;
+  /* Full height */
+  position: fixed;
+  /* Keep sidebar in place */
+  top: 100px;
+}
+
+/* .main-content {
+  margin-left: 100px;
+} */
+
+.main-content {
+  flex-grow: 1; /* Equal to 100% of the remaining space */
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-left: 50px; /* Adjusts for the sidebar width */
+}
+
+@media (max-width: 992px) {
+  .main-content {
+      margin-left: 0; /* Full width on small screens */
+  }
+}
+
+
+@media (max-width: 768px) {
+  .sidebar {
+    margin-top: 26px;
+    margin-left: -220px;
+    /* Hide sidebar */
+  }
+
+  .sidebar.show {
+    margin-left: 0;
+    /* Show sidebar */
+  }
+
+  /* .main-content {
+    margin-left: 0;
+  } */
+}
+
+
+/* Sidebar Link Styling */
+.sidebar-link {
+  font-size: 1.1rem;
+  padding: 0.75rem 1rem;
+  color: #333;
+  /* Default text color */
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar-link i {
+  margin-right: 10px;
+  color: #000;
+  /* Set icon color to black */
+  transition: color 0.3s ease;
+  /* Transition effect for icons */
+}
+
+/* Hover effects for sidebar links */
+.sidebar-link:hover {
+  background-color: #e9ecef;
+  /* Light gray background on hover */
+  color: #000;
+  /* Change text color to black on hover */
+}
+
+.sidebar-link:hover i {
+  color: #000;
+  /* Keep the icon color black on hover */
+}
+
+/* Active link styling */
+.sidebar-link.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.sidebar-link.active i {
+  color: white;
+  /* Icon color for the active link */
+}
+
+/* Sidebar Responsive Toggle Button */
+.navbar-toggler {
+  margin-bottom: 1rem;
+}
+
+.navbar-toggler i {
+  font-size: 1.5rem;
+  /* Adjust icon size */
+  color: #333;
+  /* Adjust icon color */
+}
+
+.fixed-top,
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav,
+.sb-nav-fixed .sb-topnav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+
+#layoutSidenav {
+  display: flex;
+}
+
+#layoutSidenav #layoutSidenav_nav {
+  flex-basis: 225px;
+  flex-shrink: 0;
+  transition: transform 0.15s ease-in-out;
+  z-index: 1038;
+  transform: translateX(-225px);
+}
+
+#layoutSidenav #layoutSidenav_content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  flex-grow: 1;
+  min-height: calc(100vh - 56px);
+  margin-left: -225px;
+}
+
+.sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
+  transform: translateX(0);
+}
+
+.sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 1037;
+  opacity: 0.5;
+  transition: opacity 0.3s ease-in-out;
+}
+
+@media (min-width: 992px) {
+  #layoutSidenav #layoutSidenav_nav {
+    transform: translateX(0);
+  }
+
+  #layoutSidenav #layoutSidenav_content {
+    margin-left: 0;
+    transition: margin 0.15s ease-in-out;
+  }
+
+  .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
+    transform: translateX(-225px);
+  }
+
+  .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
+    margin-left: -225px;
+  }
+
+  .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
+    display: none;
+  }
+}
+
+.sb-nav-fixed .sb-topnav {
+  z-index: 1039;
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
+  width: 225px;
+  height: 100vh;
+  z-index: 1038;
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav {
+  padding-top: 56px;
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
+  overflow-y: auto;
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_content {
+  padding-left: 225px;
+}

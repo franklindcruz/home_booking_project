@@ -1,0 +1,107 @@
+<nav class="sb-topnav navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <!-- Brand and Sidebar Toggle Button -->
+    {% if user.is_authenticated and not user.is_superuser %}
+    <a class="navbar-brand ps-3" href="{% url 'user_dashboard' %}">Dashboard</a>
+
+    <button class="btn btn-link order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+      <i class="bi bi-list"></i>
+    </button>
+    <!-- Toggle Button for small screens -->
+
+    {% else %}
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand ps-3" href="{% url 'home' %}">Home4U</a>
+    {% endif %}
+
+    <div class="collapse navbar-collapse bg-dark" id="navbarSupportedContent">
+      <!-- Centered Nav Links (Visible only to unauthenticated users) -->
+      <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0 ">
+        {% if not user.is_authenticated %}
+        <li class="nav-item me-2 ms-3 ms-lg-0">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="bi bi-house-door-fill"></i>
+            Home</a>
+        </li>
+        <li class="nav-item me-2 ms-3 ms-lg-0">
+          <a class="nav-link" href="{% url 'home_properties' %}"><i class="bi bi-building"></i> Properties</a>
+        </li>
+        <li class="nav-item me-2 ms-3 ms-lg-0">
+          <a class="nav-link" href="{% url 'about' %}"><i class="bi bi-globe2"></i> About</a>
+        </li>
+        <li class="nav-item me-2 ms-3 ms-lg-0">
+          <a class="nav-link" href="{% url 'contact' %}"><i class="bi bi-telephone-fill"></i> Contact</a>
+        </li>
+        <li class="nav-item me-2 ms-3 ms-lg-0">
+          <a class="nav-link" href="{% url 'faqs' %}"><i class="bi bi-chat-square-quote-fill"></i> Faqs</a>
+        </li>
+        {% endif %}
+      </ul>
+
+
+      <!-- Right aligned user options and auth checks -->
+      <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-2 pt-2">
+        {% if user.is_authenticated and not user.is_superuser %}
+
+        <!-- Notifications Dropdown -->
+        <li class="nav-item dropdown me-1">
+          <a class="nav-link" href="">
+            <i class="bi bi-bell-fill"></i>
+            <span id="notification-badge"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              <!-- Initial count -->
+            </span>
+          </a>
+        </li>
+
+        <!-- Messages Dropdown -->
+        <li class="nav-item dropdown me-4">
+          <a class="nav-link" href="">
+            <i class="bi bi-envelope-fill"></i>
+            <span id="message-badge"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            </span>
+          </a>
+        </li>
+
+
+        <!-- User Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false" aria-label="User Options">
+            <i class="bi bi-person-circle"></i> {{ user.username }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'user_profile' user.id %}">Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'user_dashboard' %}">Dashboard</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                <i class="bi bi-box-arrow-right"></i> Logout</a>
+            </li>
+          </ul>
+        </li>
+        {% endif %}
+      </ul>
+
+      <!-- Login/Signup for non-authenticated users -->
+      <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        {% if not user.is_authenticated %}
+        <!-- Show if the user is not authenticated -->
+        <li class="nav-item">
+          <a href="{% url 'login' %}" class="btn btn-outline-success text-light ms-2 my-lg-2">Login <i
+              class="bi bi-box-arrow-in-right"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'register' %}" class="btn btn-outline-success text-light ms-2 my-2 ">Register <i
+              class="bi bi-person-plus-fill"></i></a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Payment for {{ booking.property.title }}</h2>
+    <h4>Total Cost: &#x20b9;{{ booking.total_cost }}</h4>
+    <p>Please complete the payment to confirm your booking.</p>
+    
+    <form action="{% url 'payments:payment-confirmation' %}" method="POST" id="razorpay-form">
+        {% csrf_token %}
+        <input type="hidden" name="razorpay_order_id" value="{{ order.id }}">
+        
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+            let options = {
+                "key": "{{ razorpay_key }}", // Use the Razorpay key from the context
+                "amount": "{{ booking.total_cost|multiply:100 }}", // Amount in paise (assuming total_cost is in INR)
+                "currency": "INR",
+                "name": "Your Company Name",
+                "description": "Booking for {{ booking.property.title }}",
+                "image": "https://example.com/your_logo", // Your company logo URL
+                "order_id": "{{ order.id }}", // Pass the order ID received from Razorpay
+                "handler": function (response) {
+                    // Submit the form with the Razorpay response
+                    document.getElementById('razorpay-form').submit();
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+
+            let rzp1 = new Razorpay(options);
+            rzp1.open();
+        </script>
+    </form>
+</div>
+{% endblock %}

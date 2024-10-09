@@ -1,0 +1,72 @@
+{% extends 'core/base.html' %}
+{% block title %} Your Bookings {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Your Bookings</h1>
+    <h4 class="text-muted text-center mb-4">(Total Bookings: {{ bookings.count }})</h4>
+
+    <!-- Search Form -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <form method="GET" action="{% url 'bookings_list' %}">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search bookings..." value="{{ search_query }}">
+                    <button type="submit" class="btn btn-primary rounded-end-2">Search</button>
+                    <a class="btn btn-secondary ms-1 rounded" href="{% url 'bookings_list' %}">Reset</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 text-end mt-3 mt-md-0">
+            <a class="btn btn-dark" href="{% url 'booking:create' %}">Create Booking</a>
+        </div>
+    </div>
+
+    {% if bookings %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover mt-4 align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Property Title</th>
+                    <th scope="col">Check-in</th>
+                    <th scope="col">Check-out</th>
+                    <th scope="col">Total Cost</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.property.title }}</td>
+                    <td>{{ booking.check_in|date:"d M Y H:i" }}</td>
+                    <td>{{ booking.check_out|date:"d M Y H:i" }}</td>
+                    <td>&#x20b9;{{ booking.total_cost|floatformat:2 }}</td>
+                    <td>
+                        <span class="badge bg-secondary">{{ booking.get_status_display }}</span>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'booking:booking-detail' booking.id %}">
+                            <i class="fas fa-eye"></i> View
+                        </a>
+                        {% if booking.status == 'pending' %}
+                        <a class="btn btn-outline-warning btn-sm me-2" href="{% url 'booking:booking-update' booking.id %}">
+                            <i class="fas fa-edit"></i> Update
+                        </a>
+                        <a class="btn btn-outline-danger btn-sm" href="{% url 'booking:booking-cancel' booking.id %}">
+                            <i class="fas fa-trash"></i> Cancel
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info mt-4" role="alert">
+        No bookings found. Click <a href="{% url 'booking:create' %}" class="alert-link">here</a> to create your first booking.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

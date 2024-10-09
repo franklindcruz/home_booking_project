@@ -1,0 +1,107 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Properties List{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-4">Available Properties</h1>
+
+    <!-- Display total property count -->
+    <h4 class="text-danger text-center mb-4">(Properties Found: {{ properties.paginator.count }})</h4>
+
+    {% if properties.paginator.count == 0 %}
+    <div class="alert alert-info text-center" role="alert">
+        No properties found. <a href="{% url 'properties_list' %}" class="alert-link">Try again</a>.
+    </div>
+    {% else %}
+
+    <form method="GET" class="mb-4">
+        <div class="row mb-4 border rounded p-3 shadow">
+            <div class="col-md-4 mb-3 d-flex align-items-center">
+                <input type="text" class="form-control" name="query" value="{{ query }}" placeholder="Search by title or city">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="price_range" class="form-label">Price Range (per night):</label>
+                <input type="range" class="form-range" name="price_range" min="500" max="5000" value="{{ price_range|default:2000 }}" step="500" id="priceRange" oninput="this.nextElementSibling.value = this.value">
+                <output>{{ price_range|default:2000 }}</output>
+            </div>
+
+            <div class="col-md-2 mb-3">
+                <label for="rooms" class="form-label">Rooms:</label>
+                <select class="form-select" name="rooms">
+                    <option value="">Select</option>
+                    <option value="1" {% if rooms == '1' %}selected{% endif %}>1+</option>
+                    <option value="2" {% if rooms == '2' %}selected{% endif %}>2+</option>
+                    <option value="3" {% if rooms == '3' %}selected{% endif %}>3+</option>
+                    <option value="4" {% if rooms == '4' %}selected{% endif %}>4+</option>
+                </select>
+            </div>
+
+            <div class="col-md-2 mb-3">
+                <label for="bathrooms" class="form-label">Bathrooms:</label>
+                <select class="form-select" name="bathrooms">
+                    <option value="">Select</option>
+                    <option value="1" {% if bathrooms == '1' %}selected{% endif %}>1+</option>
+                    <option value="2" {% if bathrooms == '2' %}selected{% endif %}>2+</option>
+                    <option value="3" {% if bathrooms == '3' %}selected{% endif %}>3+</option>
+                    <option value="4" {% if bathrooms == '4' %}selected{% endif %}>4+</option>
+                </select>
+            </div>
+
+            <div class="col-md-2 mb-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Display the Properties in Rows (4 per row) -->
+    <div class="row">
+        {% for property in properties %}
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="card h-100 shadow">
+                <img src="{{ property.primary_image.url }}" class="card-img-top" alt="Property image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ property.title }}</h5>
+                    <p class="card-text">City: {{ property.city }}</p>
+                    <p class="card-text">Price per night: &#x20b9;{{ property.price_per_night }}</p>
+                    <p class="card-text">Rooms: {{ property.rooms }} | Bathrooms: {{ property.bathrooms }}</p>
+                    <p class="card-text">Max Guests: {{ property.max_guests }}</p>
+                    <a href="{% url 'property_details' property.id %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination justify-content-center mt-3">
+
+            <!-- Previous Arrow -->
+            <li class="page-item {% if not properties.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="{% if properties.has_previous %}?page={{ properties.previous_page_number }}{% if query %}&query={{ query }}{% endif %}{% if price_range %}&price_range={{ price_range }}{% endif %}{% if rooms %}&rooms={{ rooms }}{% endif %}{% if bathrooms %}&bathrooms={{ bathrooms }}{% endif %}{% endif %}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo; Prev</span>
+                </a>
+            </li>
+
+            <!-- Page Numbers -->
+            {% for num in properties.paginator.page_range %}
+            <li class="page-item {% if properties.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}{% if query %}&query={{ query }}{% endif %}{% if price_range %}&price_range={{ price_range }}{% endif %}{% if rooms %}&rooms={{ rooms }}{% endif %}{% if bathrooms %}&bathrooms={{ bathrooms }}{% endif %}">{{ num }}</a>
+            </li>
+            {% endfor %}
+
+            <!-- Next Arrow -->
+            <li class="page-item {% if not properties.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{% if properties.has_next %}?page={{ properties.next_page_number }}{% if query %}&query={{ query }}{% endif %}{% if price_range %}&price_range={{ price_range }}{% endif %}{% if rooms %}&rooms={{ rooms }}{% endif %}{% if bathrooms %}&bathrooms={{ bathrooms }}{% endif %}{% endif %}" aria-label="Next">
+                    <span aria-hidden="true">Next &raquo;</span>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+    {% endif %}
+</div>
+{% endblock %}

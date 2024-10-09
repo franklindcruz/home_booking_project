@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body_class %}sb-nav-fixed{% endblock %}
+
+{% block content %}
+<div id="layoutSidenav">
+    <!-- Sidebar/Menu for Authenticated Users -->
+    {% include 'core/menu.html' %}
+
+    <!-- Main Content Area for Authenticated Users -->
+    <div id="layoutSidenav_content">
+        <main class="main-content">
+            <div class="content-container">
+                {% block auth_content %}
+                    <!-- Dynamic content goes here (e.g., dashboard, etc.) -->
+                {% endblock %}
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

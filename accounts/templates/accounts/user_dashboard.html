@@ -1,0 +1,120 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid px-4">
+  <h1 class="mt-4 mb-4">Dashboard</h1>
+  <!-- <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Dashboard</li>
+  </ol> -->
+  <div class="row mb-3">
+    <div class="col-xl-3 col-md-6 mb-3 mg-lg-0">
+      <div class="card bg-primary text-white mb-4">
+        <div class="card-body ">Owned Properties</div>
+        <div class="card-title text-center py-1">owned properties count</div>
+        <div class="card-footer d-flex align-items-center justify-content-between">
+          <a class="small text-white stretched-link" href="{% url 'my_properties' %}">View Details</a>
+          <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-3 mg-lg-0">
+      <div class="card bg-primary text-white mb-4">
+        <div class="card-body">Your Bookings</div>
+        <div class="card-title text-center py-1">my bookings count</div>
+        <div class="card-footer d-flex align-items-center justify-content-between">
+          <a class="small text-white stretched-link" href="#">View Details</a>
+          <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-3 mg-lg-0">
+      <div class="card bg-primary text-white mb-4">
+        <div class="card-body">Other Bookings</div>
+        <div class="card-title text-center py-1">other bookings count</div>
+        <div class="card-footer d-flex align-items-center justify-content-between">
+          <a class="small text-white stretched-link" href="#">View Details</a>
+          <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-3 mg-lg-0">
+      <div class="card bg-success text-white mb-4">
+        <div class="card-body">Profile : {{user.username}}</div>
+        <p>Email: {{user.email}}</p>
+        <p>Phone: {{user.phone}}</p>
+        <div class="card-footer d-flex align-items-center justify-content-between">
+          <a class="small text-white stretched-link" href="{% url 'user_profile' user.id %}">View Details</a>
+          <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="bi bi-table me-1"></i>
+      Your Property Summary
+    </div>
+    <div class="card-body">
+      <!-- Table Responsiveness -->
+      <div class="table-responsive">
+        <table id="datatablesSimple" class="table table-bordered">
+          <thead>
+            <tr class="table-active">
+              <th>Title</th>
+              <th>City</th>
+              <th>State</th>
+              <th>Price Per Night</th>
+              <th>Start Date</th>
+              <th>Salary</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Title</th>
+              <th>City</th>
+              <th>State</th>
+              <th>Price Per Night</th>
+              <th>Start Date</th>
+              <th>Salary</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            <tr>
+              <td>Jenette Caldwell</td>
+              <td>New York</td>
+              <td>NY</td>
+              <td>$345</td>
+              <td>2011/09/03</td>
+              <td>$345,000</td>
+            </tr>
+            <tr>
+              <td>Yuri Berry</td>
+              <td>New York</td>
+              <td>NY</td>
+              <td>$675</td>
+              <td>2009/06/25</td>
+              <td>$675,000</td>
+            </tr>
+            <tr>
+              <td>Yuri Berry</td>
+              <td>New York</td>
+              <td>NY</td>
+              <td>$675</td>
+              <td>2009/06/25</td>
+              <td>$675,000</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

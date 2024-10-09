@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+{% block title %} Cancel Booking {% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-danger">Cancel Booking</h2>
+    <p>Are you sure you want to cancel this booking for <strong>{{ booking.property.title }}</strong>?</p>
+
+    <div class="alert alert-warning" role="alert">
+        Cancelling your booking may incur a cancellation fee. Please check your cancellation policy for details.
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <button type="submit" class="btn btn-danger">Confirm Cancellation</button>
+        <a href="{% url 'booking:booking-detail' booking.id %}" class="btn btn-secondary">Go Back</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+.custom-debug {
+  background-color: #e2e3e5;
+  /* Light grey */
+  color: #383d41;
+  /* Dark grey */
+}
+
+.custom-info {
+  background-color: #d1ecf1;
+  /* Light blue */
+  color: #0c5460;
+  /* Dark blue */
+}
+
+.custom-success {
+  background-color: #d4edda;
+  /* Light green */
+  color: #155724;
+  /* Dark green */
+}
+
+.custom-warning {
+  background-color: #fff3cd;
+  /* Light yellow */
+  color: #856404;
+  /* Dark yellow */
+}
+
+.custom-error {
+  background-color: #f8d7da;
+  /* Light red */
+  color: #721c24;
+  /* Dark red */
+}
+
+
+.alert-container {
+  position: fixed;
+  top: 70px;
+  z-index: 100;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.alert {
+  margin: 10px 0;
+}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block body_class %}guest-layout{% endblock %}
+
+{% block content %}
+<main class="new-body-container">
+    <div class="content-container">
+        {% block guest_content %}
+            <!-- Guest-specific content goes here (e.g., homepage, etc.) -->
+        {% endblock %}
+    </div>
+</main>
+{% endblock %}

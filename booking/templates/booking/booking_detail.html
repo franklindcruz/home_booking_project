@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} Booking Details {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Booking Details</h2>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">{{ booking.property.title }}</h5>
+            <p class="card-text">
+                <strong>Check-in:</strong> {{ booking.check_in|date:"Y-m-d H:i" }}<br>
+                <strong>Check-out:</strong> {{ booking.check_out|date:"Y-m-d H:i" }}<br>
+                <strong>Total Cost:</strong> ${{ booking.total_cost|floatformat:2 }}<br>
+                <strong>Status:</strong> {{ booking.get_status_display }}<br>
+            </p>
+        </div>
+    </div>
+
+    {% if booking.status == 'pending' %}
+    <div class="btn-group" role="group">
+        <a href="{% url 'booking:booking-update' booking.id %}" class="btn btn-warning">Update Booking</a>
+        <a href="{% url 'booking:booking-cancel' booking.id %}" class="btn btn-danger">Cancel Booking</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

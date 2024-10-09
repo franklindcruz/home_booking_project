@@ -1,0 +1,78 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Property List{% endblock %}
+
+{% block content %}
+<div class="property-filter rounded bg-light shadow-sm ">
+  <form method="GET" action="{% url 'properties_list' %}" id="search-form" class="form-horizontal row g-">
+    <!-- Search by City, State, or Title -->
+    <div class="col-md-4">
+      <input class="form-control" type="text" name="query" placeholder="Search by city, state, or title"
+        value="{{ request.GET.query }}">
+    </div>
+
+    <!-- Price Range Filter -->
+    <div class="col-md-4">
+      
+      <select name="price_range" id="priceRange" class="form-select">
+        <option value="">Select Price Range</option>
+        <option value="500-1000">500 - 1000</option>
+        <option value="1000-2000" >1000 - 2000</option>
+        <option value="2000-5000">2000 - 5000</option>
+        <option value="5000-10000">5000 - 10000</option>
+        <option value="10000-20000">10000 - 20000</option>
+
+        <!-- More options -->
+      </select>
+    </div>
+
+    <!-- Room Count Filter -->
+    <div class="col-md-2">
+      <select name="rooms" id="rooms" class="form-select">
+        <option value="">Select Rooms</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <!-- More options -->
+      </select>
+    </div>
+
+    <!-- Filter and Clear Buttons -->
+    <div class="col-md-4 mt-3">
+      <button class="btn btn-primary" type="submit">Filter</button>
+      <a href="{% url 'properties_list' %}" class="btn btn-secondary">Clear</a>
+    </div>
+  </form>
+</div>
+
+<div class="container">
+  {% if properties %}
+  <h5 class="text-muted">Found {{ properties.paginator.count }} properties</h5>
+  <div class="row mt-4">
+    {% for property in properties %}
+    <div class="col-md-3 mb-4">
+      <a href="{% url 'property_details' property.id %}" class="text-decoration-none">
+        <div class="card h-100 rounded shadow-sm">
+          <img src="{{ property.primary_image.url|default:'media/home_default.jpg' }}" class="card-img-top"
+            alt="Property Image">
+          <div class="card-body">
+            <h5 class="card-title">{{ property.title }}</h5>
+            <p class="card-text">{{ property.city }}, {{ property.state }}</p>
+            <p class="card-text">₹{{ property.price_per_night }} / night</p>
+            <p class="card-text">{{ property.rooms }} Rooms, {{ property.bathrooms }} Bathrooms</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="d-flex justify-content-center mt-4">
+    {{ properties.paginator }}
+  </div>
+  {% else %}
+  <h5 class="text-muted">No properties found</h5>
+  {% endif %}
+</div>
+{% endblock %}

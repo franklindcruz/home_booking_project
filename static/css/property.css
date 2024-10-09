@@ -1,0 +1,125 @@
+.property-filter {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  /* Center the form horizontally */
+  top: 80px;
+  width: 100%;
+  background-color: #fff;
+  z-index: 2;
+  margin-bottom: 20px;
+}
+
+.form-horizontal {
+  display: flex;
+  align-items: center;
+  /* Align items vertically in the center */
+  flex-wrap: wrap;
+  /* Allow the form elements to wrap to the next line if needed */
+  gap: 10px;
+  /* Add space between elements */
+}
+
+.price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Add space between the min and max price inputs */
+}
+
+.property_search_bar,
+#priceRange,
+.filter-price {
+  flex: 1;
+  /* Allow elements to grow to fill the available space */
+  min-width: 120px;
+  /* Set a minimum width for each input */
+}
+
+.filter-btn {
+  flex: none;
+  /* Prevent the button from growing */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 20px;
+  transition: background-color 0.3s;
+}
+
+.filter-btn:hover {
+  background-color: #0056b3;
+}
+
+/* .property_search_bar {
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px 20px;
+}
+
+.filter-price {
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px 20px;
+}
+
+.filter-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+} */
+
+.primary-image-uploader {
+  position: relative;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  height: 150px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.image-uploader {
+  position: relative;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  height: 150px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.image-label {
+  cursor: pointer;
+}
+
+.upload-placeholder {
+  text-align: center;
+  color: #aaa;
+
+}
+
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}

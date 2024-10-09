@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} Update Booking {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Update Your Booking</h2>
+    <form method="post" id="booking-update-form">
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <div class="form-group">
+            <label for="total_cost">Total Cost:</label>
+            <input type="text" id="total_cost" readonly class="form-control" value="{{ booking.total_cost|floatformat:2 }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Booking</button>
+    </form>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const totalCostField = document.getElementById('total_cost');
+
+      // Initialize Flatpickr for check-in and check-out fields
+      flatpickr("#id_check_in", {
+          minDate: "today",
+          defaultDate: "{{ booking.check_in|date:'Y-m-d H:i' }}",
+          dateFormat: "Y-m-d H:i",
+          enableTime: true,
+          disable: function(date) {
+              return disabledDates.includes(date.toISOString().substring(0, 10));
+          },
+          onChange: updateTotalCost
+      });
+
+      flatpickr("#id_check_out", {
+          minDate: "today",
+          defaultDate: "{{ booking.check_out|date:'Y-m-d H:i' }}",
+          dateFormat: "Y-m-d H:i",
+          enableTime: true,
+          disable: function(date) {
+              return disabledDates.includes(date.toISOString().substring(0, 10));
+          },
+          onChange: updateTotalCost
+      });
+
+      // Function to update the total cost based on selected dates
+      function updateTotalCost() {
+          const checkInDate = document.getElementById('id_check_in')._flatpickr.selectedDates[0];
+          const checkOutDate = document.getElementById('id_check_out')._flatpickr.selectedDates[0];
+
+          if (checkInDate && checkOutDate) {
+              const timeDiff = checkOutDate.getTime() - checkInDate.getTime();
+              const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+              const costPerDay = {{ property.price_per_night }};  // Dynamic pricing from the selected property
+
+              if (daysDiff > 0) {
+                  totalCostField.value = (daysDiff * costPerDay).toFixed(2);
+              } else {
+                  totalCostField.value = "0.00"; // No cost if check-out is not after check-in
+              }
+          } else {
+              totalCostField.value = "0.00"; // Reset total if dates are not valid
+          }
+      }
+
+      let disabledDates = [];
+      // Fetch disabled dates via AJAX
+      fetch("{% url 'booking:disabled-dates' %}")
+          .then(response => response.json())
+          .then(data => {
+              disabledDates = data.disabled_dates;
+          })
+          .catch(error => console.error('Error fetching disabled dates:', error));
+  });
+</script>
+{% endblock %}

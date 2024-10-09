@@ -1,0 +1,13 @@
+# Create every git ignore file part of the project
+
+*.pyc
+__pycache__
+
+myvenv
+.env
+
+db.sqlite3
+staticfiles
+media
+static/images
+migrations

@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} Create Booking {% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Create a Booking</h2>
+    <form method="post" id="booking-form">
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <div class="form-group">
+            <label for="total-cost">Total Cost:</label>
+            <input type="text" id="total-cost" readonly class="form-control" aria-label="Total Cost">
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Submit Booking</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkinDateInput = document.getElementById('checkin-date');
+        const checkoutDateInput = document.getElementById('checkout-date');
+        const totalCostElement = document.getElementById('total-cost');
+
+        // Fetch the property price from the backend (passed through context or directly on the page)
+        const pricePerNight = {{ property.price_per_night }
+    }; // Ensure you pass this to the template
+
+    function calculateTotalCost() {
+        const checkinDate = new Date(checkinDateInput.value);
+        const checkoutDate = new Date(checkoutDateInput.value);
+
+        if (checkinDate && checkoutDate && checkoutDate > checkinDate) {
+            const daysDifference = Math.floor((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24)); // Milliseconds to days
+            const totalCost = daysDifference * pricePerNight;
+            totalCostElement.textContent = `$${totalCost.toFixed(2)}`;
+        } else {
+            totalCostElement.textContent = "$0";  // Reset if dates are invalid
+        }
+    }
+
+    // Attach event listeners
+    checkinDateInput.addEventListener('change', calculateTotalCost);
+    checkoutDateInput.addEventListener('change', calculateTotalCost);
+    });
+</script>
+{% endblock %}

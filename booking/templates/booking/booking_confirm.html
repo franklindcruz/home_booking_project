@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Booking Confirmation</h2>
+    
+    {% if messages %}
+        <div class="alert alert-warning" role="alert">
+            {% for message in messages %}
+                {{ message }}<br>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>Booking Details</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Property:</strong> {{ booking.property.title }}</p>
+            <p><strong>Check-in Date:</strong> {{ booking.check_in_date|date:"F j, Y" }}</p>
+            <p><strong>Check-out Date:</strong> {{ booking.check_out_date|date:"F j, Y" }}</p>
+            <p><strong>Total Cost:</strong> ${{ booking.total_cost }}</p>
+            <p><strong>Status:</strong> {{ booking.get_status_display }}</p>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <p>Are you sure you want to confirm this booking?</p>
+        <form action="{% url 'payments:initiate-payment' booking.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Confirm and Proceed to Payment</button>
+            <a href="{% url 'booking:booking-list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

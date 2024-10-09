@@ -1,0 +1,145 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ property.title }} Details {% endblock %}
+
+{% block content %}
+<div class="container-fluid p-5">
+  <div class="row">
+    <!-- Property Images Section -->
+    <div class="col-lg-6">
+      <div id="propertyImagesCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <!-- Primary image always first -->
+          <div class="carousel-item active">
+            <img src="{{ property.primary_image.url }}" class="d-block w-100 rounded" alt="Primary Image">
+          </div>
+          <!-- Additional images -->
+          {% for image in property.property_images.all %}
+          <div class="carousel-item">
+            <img src="{{ image.image.url }}" class="d-block w-100 rounded" alt="Additional Property Image">
+          </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#propertyImagesCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#propertyImagesCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Property Details Section -->
+    <div class="col-lg-6">
+      <div class="card border-0">
+        <div class="card-body">
+          <h2 class="card-title display-5">{{ property.title }}</h2>
+          <p class="card-text text-muted">{{ property.description }}</p>
+          <h4 class="text-primary mb-4">₹{{ property.price_per_night }} / night</h4>
+          <p class="mb-2"><i class="bi bi-geo-alt-fill"></i> {{ property.city }}, {{ property.state }}</p>
+          <ul class="list-unstyled">
+            <li><strong>Rooms:</strong> {{ property.rooms }}</li>
+            <li><strong>Bathrooms:</strong> {{ property.bathrooms }}</li>
+            <li><strong>Max Guests:</strong> {{ property.max_guests }}</li>
+            <li><strong>Created On:</strong> {{ property.created_at|date:"d-m-Y" }}</li>
+            {% if property.approval_status == 'approved' %}
+            <li><strong>Available Since:</strong> {{ property.updated_at|date:"d-m-Y" }}</li>
+            {% endif %}
+          </ul>
+
+          {% if property.approval_status == 'approved' %}
+          <div class="d-grid gap-2">
+            <a href="{% url 'book_now' property.id %}" class="btn btn-success btn-lg">Book Now</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Owner Actions Section -->
+      {% if user.is_authenticated and user == property.owner %}
+      <div class="mt-4">
+        <h5 class="mb-3">Owner Actions</h5>
+        <a href="{% url 'edit_property' property.id %}" class="btn btn-primary">Edit Property</a>
+        <a href="{% url 'add_images' property.id %}" class="btn btn-outline-primary">Add New Images</a>
+        <a href="{% url 'review' property.id %}" class="btn btn-outline-secondary">Manage Reviews</a>
+      </div>
+      {% elif user.is_authenticated %}
+      <div class="mt-4">
+        <h5 class="mb-3">User Actions</h5>
+        <p>As a user, you can view the property details and leave a review if you've booked this property.</p>
+        <!-- Chat Icon for Tenant -->
+        <button id="start-chat" class="btn btn-outline-info" data-property-id="{{ property.id }}">
+          <i class="bi bi-chat-dots"></i> Start Chat
+        </button>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Reviews Section -->
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header">
+      <h4>Reviews</h4>
+    </div>
+    <div class="card-body">
+      {% if reviews %}
+      <ul class="list-group list-group-flush">
+        {% for review in reviews %}
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h6 class="fw-bold">{{ review.user }}</h6>
+              <p class="mb-1">{{ review.comment }}</p>
+            </div>
+            <div>
+              <span class="badge bg-warning text-dark">{{ review.rating }} / 5</span>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-muted">No reviews yet.</p>
+      {% endif %}
+      
+      <!-- Review form only for non-owners who have booked -->
+      {% if user.is_authenticated and user != property.owner and user_has_booked_property %}
+      <form method="POST" action="{% url 'create_review' property.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <textarea class="form-control" name="review" placeholder="Write your review here" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Submit Review</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Chatroom Modal (Initially Hidden) -->
+<div id="chatroomModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="chatroomModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="chatroomModalLabel">Chat with {{ property.owner.username }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="chat-history" id="chat-history">
+          <!-- Chat messages will be appended here -->
+        </div>
+        <input type="text" id="message-input" class="form-control" placeholder="Type your message..." required>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="send-message" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

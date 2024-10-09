@@ -1,0 +1,75 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+{{ profile_user.username }} Profile
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row col-md-6 offset-md-3">
+    <h1 class="text-center mt-5">Your Profile</h1>
+    <div class="card mt-5">
+      <div class="card-body">
+        <h5 class="card-title">Profile Details</h5>
+
+        <div class="profile-detail row">
+          <div class="col-6 fw-bold">Username</div>
+          <div class="colon">:</div>
+          <div class="col-5">{{ profile_user.username }}</div>
+        </div>
+
+        <div class="profile-detail row">
+          <div class="col-6 fw-bold">Email</div>
+          <div class="colon">:</div>
+          <div class="col-5">{{ profile_user.email }}</div>
+        </div>
+
+        <div class="profile-detail row">
+          <div class="col-6 fw-bold">Phone</div>
+          <div class="colon">:</div>
+          <div class="col-5">{{ profile_user.phone }}</div>
+        </div>
+
+        <div class="profile-detail row">
+          <div class="col-6 fw-bold">City</div>
+          <div class="colon">:</div>
+          <div class="col-5">{{ profile_user.city }}</div>
+        </div>
+
+        <div class="profile-detail row">
+          <div class="col-6 fw-bold">State</div>
+          <div class="colon">:</div>
+          <div class="col-5">{{ profile_user.state }}</div>
+        </div>
+
+        <div class="profile-detail row">
+          <div class="col-6 fw-bold">Zip Code</div>
+          <div class="colon">:</div>
+          <div class="col-5">{{ profile_user.zip_code }}</div>
+        </div>
+
+        <div class="profile-detail row">
+          <div class="col-6 fw-bold">Profile Picture</div>
+          <div class="colon">:</div>
+          <div class="col-5 my-img-container">
+            {% if profile_user.profile_pic and profile_user.profile_pic.url %}
+            <img src="{{ profile_user.profile_pic.url }}" width="80" alt="{{ profile_user.username }}'s Profile Picture"
+              class="my-img img-fluid rounded-circle">
+            {% else %}
+            <img src="/media/avatar_pic.jpg" width="80" alt="Default Profile Picture"
+              class="my-img img-fluid rounded-circle">
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <a href="{% url 'update_profile' profile_user.id %}" name="profile_image_preview" class="btn btn-primary">Edit Profile</a>
+        </div>
+        <div class="mt-3">
+          <a href="{% url 'change_password' %}" class="btn btn-primary">Change Password</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,212 @@
+/* Ensure uniform height for property images */
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+
+}
+
+/* Ensure cards have the same height */
+.card {
+    height: 100%;
+    transition: box-shadow 0.3s ease-in-out;
+    padding: 15px 15px 0px 15px;
+}
+
+/* Align button at the bottom of each card */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Hover effects for property cards */
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-body .btn-primary {
+    transition: background-color 0.3s ease;
+}
+
+.card-body .btn-primary:hover {
+    background-color: #0056b3;
+    /* Adjust color as needed */
+}
+
+/* Hover effects for carousel captions */
+
+/* .carousel-caption {
+    transition: background-color 0.3s ease;
+}
+
+.carousel-caption:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+} */
+
+/* Button hover effects */
+.btn-primary 
+.btn-dark 
+.btn-secondary 
+.btn-success
+.btn-danger
+.btn-warning
+.btn-info
+.btn-light
+{
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    /* Adjust color as needed */
+    transform: scale(1.05);
+}
+.btn-secondary:hover {
+    background-color: #6c757d;
+    /* Adjust color as needed */
+    transform: scale(1.05);
+}
+.btn-success:hover {
+    background-color: #28a745;
+    /* Adjust color as needed */
+    transform: scale(1.05);
+}
+.btn-danger:hover {
+    background-color: #dc3545;
+    /* Adjust color as needed */
+    transform: scale(1.05);
+}
+.btn-warning:hover {
+    background-color: #ffc107;
+    /* Adjust color as needed */
+    transform: scale(1.05);
+}
+.btn-info:hover {
+    background-color: #17a2b8;
+    /* Adjust color as needed */
+    transform: scale(1.05);
+}
+.btn-light:hover {
+    background-color: #f8f9fa;
+    /* Adjust color as needed */
+    transform: scale(1.05);
+}
+.btn-dark:hover {
+    background-color: #343a40;
+    /* Adjust color as needed */
+    transform: scale(1.05);
+}
+
+
+
+
+/* Styling adjustments for other sections */
+.carousel-caption h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.properties .card-body p {
+    margin-bottom: 0.5rem;
+}
+
+.properties .btn-primary {
+    margin-top: auto;
+}
+
+
+
+/* Carousel image styling */
+.carousel-img-main {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    filter: brightness(60%);
+    transition: transform 0.5s ease, filter 0.5s ease, box-shadow 0.5s ease;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    /* Optional: adjust based on design */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    /* Adds depth */
+}
+
+/* Overlay gradient for better readability */
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+    z-index: 1;
+}
+
+/* Ensure caption text is above the gradient */
+.carousel-caption {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+}
+
+/* Zoom effect on hover */
+.carousel-item:hover .carousel-img-main {
+    transform: scale(1.05);
+    filter: brightness(80%);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Carousel controls styling */
+.carousel-control-prev,
+.carousel-control-next {
+    filter: invert(100%);
+    /* Make control icons more visible */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Optional: Background color for control icons */
+    border-radius: 50%;
+    /* Round background for controls */
+    padding: 0.5rem;
+    /* Add some space around control icons */
+}
+
+/* Carousel caption styling */
+.carousel-caption h1 {
+    font-size: 2.5rem;
+    /* Larger font size for the caption heading */
+    font-weight: bold;
+}
+
+.carousel-caption p {
+    font-size: 1.25rem;
+    /* Adjust font size for the caption text */
+}
+
+.carousel-caption a.btn {
+    margin-top: 1rem;
+    /* Space between caption text and button */
+    padding: 0.75rem 1.5rem;
+    /* Increase button size */
+}
+
+/* Align colon centrally between columns */
+.profile-detail {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.profile-detail .colon {
+    text-align: center;
+    flex-basis: 20px;
+    /* Width for the colon */
+    margin-right: 1rem;
+    /* Adjust spacing as needed */
+}

@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Edit Property
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header text-center">
+          <h2>Edit Property</h2>
+        </div>
+        <div class="card-body">
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+
+            <div class="form-group mt-3">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="is_available" name="is_available" 
+                {% if form.instance.is_available %} checked {% endif %}>
+                <label class="form-check-label" for="is_available">Is Available?</label>
+              </div>
+            </div>
+
+            <div class="form-group text-center mt-4">
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+              <a href="{% url 'property_details' property.id %}" class="btn btn-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    var today = new Date().toISOString().split('T')[0];
+
+    // Disable past dates
+    $('#id_available_from, #id_available_to').attr('min', today);
+
+    // Disable availability dates if the property is not available
+    $('#is_available').change(function () {
+      if ($(this).is(':checked')) {
+        $('#id_available_from, #id_available_to').prop('disabled', false);
+      } else {
+        $('#id_available_from, #id_available_to').prop('disabled', true).val('');
+      }
+    }).change(); // Trigger the change event on page load to set the initial state
+  });
+</script>
+
+{% endblock %}

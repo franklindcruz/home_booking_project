@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Contact{% endblock %}
+
+{% block home_content %}
+<section class="contact-info" id="contact-info">
+  <h1 class="fs-1 text-capitalize text-center mb-3 uppercase">Get in touch</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 mb-3 mb-lg-0">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Contact Information</h5>
+            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod
+              voluptates. Quisquam, quod voluptates.</p>
+            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod
+              voluptates. Quisquam, quod voluptates.</p>
+            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod
+              voluptates. Quisquam, quod voluptates.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <form method="POST">
+              {% csrf_token %}
+              <!-- Render form fields dynamically -->
+              <div class="mb-3">
+                {{ form.username|as_crispy_field  }}
+              </div>
+
+              <div class="mb-3">
+                {{ form.email|as_crispy_field  }}
+              </div>
+
+              <div class="mb-3">
+                {{ form.subject|as_crispy_field  }}
+              </div>
+
+              <div class="mb-3">
+                {{ form.message|as_crispy_field  }}
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
