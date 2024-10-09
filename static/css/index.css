@@ -54,48 +54,48 @@
 .btn-info
 .btn-light
 {
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.6s ease, transform 0.6s ease;
 }
 
 .btn-primary:hover {
     background-color: #0056b3;
     /* Adjust color as needed */
-    transform: scale(1.05);
+    transform: scale(1.01);
 }
 .btn-secondary:hover {
     background-color: #6c757d;
     /* Adjust color as needed */
-    transform: scale(1.05);
+    transform: scale(1.01);
 }
 .btn-success:hover {
     background-color: #28a745;
     /* Adjust color as needed */
-    transform: scale(1.05);
+    transform: scale(1.01);
 }
 .btn-danger:hover {
     background-color: #dc3545;
     /* Adjust color as needed */
-    transform: scale(1.05);
+    transform: scale(1.01);
 }
 .btn-warning:hover {
     background-color: #ffc107;
     /* Adjust color as needed */
-    transform: scale(1.05);
+    transform: scale(1.01);
 }
 .btn-info:hover {
     background-color: #17a2b8;
     /* Adjust color as needed */
-    transform: scale(1.05);
+    transform: scale(1.01);
 }
 .btn-light:hover {
     background-color: #f8f9fa;
     /* Adjust color as needed */
-    transform: scale(1.05);
+    transform: scale(1.01);
 }
 .btn-dark:hover {
     background-color: #343a40;
     /* Adjust color as needed */
-    transform: scale(1.05);
+    transform: scale(1.01);
 }
 
 

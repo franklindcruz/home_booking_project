@@ -7,57 +7,63 @@ Register
 {% load crispy_forms_tags %}
 
 {% block home_content %}
-<div class="container ">
-    <div class="row col-md-6 offset-md-3">
-        <h1 class="text-center my-5">Register</h1>
-        <form action="" method="post">
-            {% csrf_token %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm mt-5">
+                <div class="card-body">
+                    <h1 class="text-center my-4">Register</h1>
+                    <form action="" method="post">
+                        {% csrf_token %}
 
-            <!-- Crispy form rendering -->
-            <div class="mb-3">
-                {{ form.username|as_crispy_field }}
+                        <!-- Crispy form rendering -->
+                        <div class="mb-3">
+                            {{ form.username|as_crispy_field }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.first_name|as_crispy_field }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.last_name|as_crispy_field }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.email|as_crispy_field }}
+                        </div>
+
+                        <div class="mb-3 position-relative">
+                            {{ form.password1|as_crispy_field }}
+                            <span class="position-absolute end-0 top-0 mt-2 me-4" onclick="togglePassword('password1')"
+                                style="cursor:pointer;">
+                                <i class="bi bi-eye-slash text-dark" id="toggle-password1-icon"></i>
+                            </span>
+                        </div>
+
+                        <div class="mb-3 position-relative">
+                            {{ form.password2|as_crispy_field }}
+                            <span class="position-absolute end-0 top-0 mt-2 me-4" onclick="togglePassword('password2')"
+                                style="cursor:pointer;">
+                                <i class="bi bi-eye-slash text-dark" id="toggle-password2-icon"></i>
+                            </span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="reset" class="btn btn-danger">Reset</button>
+                        </div>
+
+                        <br>
+                        <p class="text-center text-secondary mt-3">Already registered?
+                            <a class="text-decoration-none text-primary" href="{% url 'login' %}">
+                                <strong>Login</strong>
+                            </a>
+                        </p>
+                    </form>
+                </div>
             </div>
-
-            <div class="mb-3">
-                {{ form.first_name|as_crispy_field }}
-            </div>
-
-            <div class="mb-3">
-                {{ form.last_name|as_crispy_field }}
-            </div>
-
-            <div class="mb-3">
-                {{ form.email|as_crispy_field }}
-            </div>
-
-            <div class="mb-3 position-relative">
-                {{ form.password1|as_crispy_field }}
-                <span class="position-absolute end-0 top-0 mt-2 me-4" onclick="togglePassword('password1')"
-                    style="cursor:pointer;">
-                    <i class="bi bi-eye-slash text-dark" id="toggle-password1-icon"></i>
-                </span>
-            </div>
-
-            <div class="mb-3 position-relative">
-                {{ form.password2|as_crispy_field }}
-                <span class="position-absolute end-0 top-0 mt-2 me-4" onclick="togglePassword('password2')"
-                    style="cursor:pointer;">
-                    <i class="bi bi-eye-slash text-dark" id="toggle-password2-icon"></i>
-                </span>
-            </div>
-
-            <div class="">
-                <button type="submit" class="btn btn-primary float-start">Register</button>
-                <button type="reset" class="btn btn-danger mx-1">Reset</button>
-            </div>
-
-            <br><br>
-            <p class="text-secondary">Already registered?
-                <a class="text-decoration-none text-success" href="{% url 'login' %}">
-                    <strong>Login</strong>
-                </a>
-            </p>
-        </form>
+        </div>
     </div>
 </div>
 

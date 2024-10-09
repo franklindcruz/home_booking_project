@@ -4,51 +4,59 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-
 <div class="container-fluid px-4">
-  <h1 class="mt-4 mb-4">Dashboard</h1>
-  <!-- <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Dashboard</li>
-  </ol> -->
+  <h1 class="mt-4 mb-4 text-center">User Dashboard</h1>
+  
   <div class="row mb-3">
-    <div class="col-xl-3 col-md-6 mb-3 mg-lg-0">
-      <div class="card bg-primary text-white mb-4">
-        <div class="card-body ">Owned Properties</div>
-        <div class="card-title text-center py-1">owned properties count</div>
-        <div class="card-footer d-flex align-items-center justify-content-between">
-          <a class="small text-white stretched-link" href="{% url 'my_properties' %}">View Details</a>
-          <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
+    <!-- Owned Properties Card -->
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card bg-primary text-white h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Owned Properties</h5>
+          <h2 class="card-text">{{ owned_properties_count }}</h2>
+        </div>
+        <div class="card-footer text-center">
+          <a class="btn btn-light" href="{% url 'my_properties' %}">View Details</a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-6 mb-3 mg-lg-0">
-      <div class="card bg-primary text-white mb-4">
-        <div class="card-body">Your Bookings</div>
-        <div class="card-title text-center py-1">my bookings count</div>
-        <div class="card-footer d-flex align-items-center justify-content-between">
-          <a class="small text-white stretched-link" href="#">View Details</a>
-          <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
+
+    <!-- Your Bookings Card -->
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card bg-info text-white h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Your Bookings</h5>
+          <h2 class="card-text">{{ user_bookings_count }}</h2>
+        </div>
+        <div class="card-footer text-center">
+          <a class="btn btn-light" href="#">View Details</a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-6 mb-3 mg-lg-0">
-      <div class="card bg-primary text-white mb-4">
-        <div class="card-body">Other Bookings</div>
-        <div class="card-title text-center py-1">other bookings count</div>
-        <div class="card-footer d-flex align-items-center justify-content-between">
-          <a class="small text-white stretched-link" href="#">View Details</a>
-          <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
+
+    <!-- Other Bookings Card -->
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card bg-warning text-white h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Other Bookings</h5>
+          <h2 class="card-text">{{ other_bookings_count }}</h2>
+        </div>
+        <div class="card-footer text-center">
+          <a class="btn btn-light" href="#">View Details</a>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-6 mb-3 mg-lg-0">
-      <div class="card bg-success text-white mb-4">
-        <div class="card-body">Profile : {{user.username}}</div>
-        <p>Email: {{user.email}}</p>
-        <p>Phone: {{user.phone}}</p>
-        <div class="card-footer d-flex align-items-center justify-content-between">
-          <a class="small text-white stretched-link" href="{% url 'user_profile' user.id %}">View Details</a>
-          <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
+
+    <!-- Profile Card -->
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card bg-success text-white h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Profile: {{ user.username }}</h5>
+          <p>Email: {{ user.email }}</p>
+          <p>Phone: {{ user.phone }}</p>
+        </div>
+        <div class="card-footer text-center">
+          <a class="btn btn-light" href="{% url 'user_profile' user.id %}">View Profile</a>
         </div>
       </div>
     </div>
@@ -60,9 +68,8 @@
       Your Property Summary
     </div>
     <div class="card-body">
-      <!-- Table Responsiveness -->
       <div class="table-responsive">
-        <table id="datatablesSimple" class="table table-bordered">
+        <table id="datatablesSimple" class="table table-bordered table-hover">
           <thead>
             <tr class="table-active">
               <th>Title</th>
@@ -70,51 +77,29 @@
               <th>State</th>
               <th>Price Per Night</th>
               <th>Start Date</th>
-              <th>Salary</th>
+              <th>Actions</th>
             </tr>
           </thead>
-          <tfoot>
-            <tr>
-              <th>Title</th>
-              <th>City</th>
-              <th>State</th>
-              <th>Price Per Night</th>
-              <th>Start Date</th>
-              <th>Salary</th>
-            </tr>
-          </tfoot>
           <tbody>
+            {% for property in properties %}
             <tr>
-              <td>Jenette Caldwell</td>
-              <td>New York</td>
-              <td>NY</td>
-              <td>$345</td>
-              <td>2011/09/03</td>
-              <td>$345,000</td>
+              <td>{{ property.title }}</td>
+              <td>{{ property.city }}</td>
+              <td>{{ property.state }}</td>
+              <td>${{ property.price_per_night }}</td>
+              <td>{{ property.start_date }}</td>
+              <td>
+                <a href="{% url 'property_detail' property.id %}" class="btn btn-sm btn-info">View</a>
+                <a href="{% url 'edit_property' property.id %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'delete_property' property.id %}" class="btn btn-sm btn-danger">Delete</a>
+              </td>
             </tr>
-            <tr>
-              <td>Yuri Berry</td>
-              <td>New York</td>
-              <td>NY</td>
-              <td>$675</td>
-              <td>2009/06/25</td>
-              <td>$675,000</td>
-            </tr>
-            <tr>
-              <td>Yuri Berry</td>
-              <td>New York</td>
-              <td>NY</td>
-              <td>$675</td>
-              <td>2009/06/25</td>
-              <td>$675,000</td>
-            </tr>
-
+            {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
   </div>
-
 </div>
 
 {% endblock %}

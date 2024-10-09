@@ -5,63 +5,61 @@ Login
 {% endblock %}
 
 {% block home_content %}
-
 <div class="container">
-    <div class="row col-md-6 offset-md-3">
-        <h1 class="text-center mt-5">Login</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm mt-5">
+                <div class="card-body">
+                    <h1 class="text-center my-4">Login</h1>
 
-        <form action="{% url 'login' %}" method="POST" class="mt-5">
-            {% csrf_token %}
+                    <form action="{% url 'login' %}" method="POST">
+                        {% csrf_token %}
 
-            <!-- Username Field -->
-            <div class="mb-3">
-                <label for="username-field" class="form-label">Username</label>
-                <input type="text" id="username-field" class="form-control" name="username"
-                    placeholder="Enter your username" required>
+                        <!-- Username Field -->
+                        <div class="mb-3">
+                            <label for="username-field" class="form-label">Username</label>
+                            <input type="text" id="username-field" class="form-control" name="username"
+                                placeholder="Enter your username" required>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="mb-3 position-relative">
+                            <label for="password-field" class="form-label">Password</label>
+                            <input type="password" id="password-field" class="form-control pe-5" name="password"
+                                placeholder="Password" required>
+                            <span class="position-absolute end-0 top-50 mt-1 me-3" onclick="togglePassword()"
+                                style="cursor:pointer;">
+                                <i class="bi bi-eye-slash text-dark" id="toggle-password-icon"></i>
+                            </span>
+                        </div>
+
+                        <!-- Remember Me Checkbox -->
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember_user" name="remember_user">
+                            <label class="form-check-label" for="remember_user">Remember me</label>
+                        </div>
+
+                        <!-- Register Link -->
+                        <p class="text-center">
+                            <strong>Don't have an account?</strong>
+                            <a href="{% url 'register' %}" class="text-decoration-none text-primary"><strong> Register
+                                    here</strong></a>
+                        </p>
+
+                        <!-- Forgot Password Link -->
+                        <p class="text-center">
+                            <a href="{% url 'reset_password' %}" class="text-decoration-none text-primary">Forgot
+                                password?</a>
+                        </p>
+
+                        <!-- Submit Button -->
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <!-- Password Field -->
-            <div class="mb-3 position-relative">
-                <label for="password-field" class="form-label">Password</label>
-                <input type="password" id="password-field" class="form-control pe-5" name="password"
-                    placeholder="Password" required>
-                <span class="position-absolute end-0 top-50 mt-1 me-3" onclick="togglePassword()"
-                    style="cursor:pointer;">
-                    <i class="bi bi-eye-slash text-dark" id="toggle-password-icon"></i>
-                </span>
-            </div>
-
-
-
-            <!-- <div class="mb-3 position-relative">
-                <label for="password-field" class="form-label">Password</label>
-                <input type="password" id="password-field" class="form-control" name="password" placeholder="Enter your password" required>
-                <span class="position-absolute end-0 top-0 mt-2 me-3" onclick="togglePassword()" style="cursor:pointer;">
-                    <i class="bi bi-eye-slash text-dark" id="toggle-password-icon"></i>
-                </span>
-            </div> -->
-
-            <!-- Remember Me Checkbox -->
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="remember_user" name="remember_user">
-                <label class="form-check-label" for="remember_user">Remember me</label>
-            </div>
-
-            <!-- Register Link -->
-            <p>
-                <strong>Don't have an account?</strong>
-                <a href="{% url 'register' %}" style="text-decoration: none;"><strong> Register here</strong></a>
-            </p>
-
-            <!-- Forgot Password Link -->
-            <a href="{% url 'reset_password' %}" style="text-decoration: none;">Forgot password?</a>
-            <br><br>
-
-            <!-- Submit Button -->
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary w-100">Login</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
@@ -82,6 +80,5 @@ Login
         }
     }
 </script>
-
 
 {% endblock %}

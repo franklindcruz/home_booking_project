@@ -1,5 +1,5 @@
 {% if messages %}
-<div class="alert-container position-fixed">
+<div class="alert-container">
     {% for message in messages %}
     <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
         {{ message }}
@@ -11,18 +11,17 @@
 
 
 <script>
-    // Wait for the DOM to be ready
-    document.addEventListener('DOMContentLoaded', function () {
-        // Select all alert elements
-        var alerts = document.querySelectorAll('.alert-dismissible');
+    // Set a timeout to automatically close the alert after 3 seconds
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 3000); // 3000 milliseconds = 3 seconds
 
-        // Iterate through each alert
-        alerts.forEach(function (alert) {
-            // Set a timeout to automatically close the alert after 5 seconds
-            setTimeout(function () {
-                var alertInstance = new bootstrap.Alert(alert);
-                alertInstance.close();
-            }, 3000); // 5000 milliseconds = 5 seconds
+    // Add event listener for the close button to also remove the alert manually
+    $(document).on('click', '.btn-close', function() {
+        $(this).closest('.alert').fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove();
         });
     });
 </script>

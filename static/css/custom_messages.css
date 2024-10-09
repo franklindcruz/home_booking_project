@@ -34,7 +34,7 @@
 }
 
 
-.alert-container {
+/* .alert-container {
   position: fixed;
   top: 70px;
   z-index: 100;
@@ -47,4 +47,28 @@
 
 .alert {
   margin: 10px 0;
+} */
+
+.alert-container {
+  position: fixed;
+  top: 70px;
+  z-index: 100;
+  width: 100%;
+  max-width: 500px;
+  /* Set your desired maximum width here */
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: 50%;
+  /* Center the container */
+  transform: translateX(-50%);
+  /* Adjust to center based on max-width */
+  text-align: center;
+}
+
+.alert {
+  margin: 10px 0;
+  width: 100%;
+  /* Make alerts take full width of container */
 }

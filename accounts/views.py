@@ -12,25 +12,26 @@ from django.template.loader import render_to_string
 from .forms import UserRegisterForm, UpdateProfileForm, ChangePasswordForm, ForgetPasswordForm
 from accounts.models import CustomUser
 from properties.models import Property
+from django.core.exceptions import ValidationError
 
 # Create your views here.
+
+
 def user_register(request):
     if request.user.is_authenticated:
         return redirect('user_dashboard')
 
     if request.method == 'POST':
         form = UserRegisterForm(request.POST, request=request)
-        # check user already exists
         if form.is_valid():
             form.save()
             messages.success(request, "Registration successful!")
             return redirect('login')
         else:
-            # Handle non-field errors if needed
             for error in form.non_field_errors():
                 messages.error(request, error)
     else:
-        form = UserRegisterForm( request=request)
+        form = UserRegisterForm(request=request)
     return render(request, 'accounts/register.html', {'form': form})
 
 
@@ -41,18 +42,17 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        remember_me = request.POST.get('remember_user')
+        remember_user = request.POST.get('remember_user')
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             if user.is_superuser or user.is_staff:
-                messages.error(request, 'You are not authorized to log in from this page.')
+                messages.error(
+                    request, 'You are not authorized to log in from this page.')
                 return redirect('login')
 
             login(request, user)
-
-            # Set session expiry based on the remember_me checkbox
-            request.session.set_expiry(1209600 if remember_me else 0)  # 2 weeks or browser close
+            request.session.set_expiry(1209600 if remember_user else 0)
             messages.success(request, 'Logged in successfully')
             return redirect('home')
 
@@ -90,12 +90,11 @@ def change_password(request):
             user.set_password(new_password)
             user.save()
             update_session_auth_hash(request, user)
-
             messages.success(request, 'Password changed successfully')
             return redirect('user_profile', id=user.id)
 
         messages.error(request, 'Passwords do not match')
-    
+
     form = ChangePasswordForm()
     return render(request, 'accounts/change_password.html', {'form': form})
 
@@ -117,17 +116,21 @@ def forgot_password(request):
                     'user': user,
                     'reset_link': reset_link
                 })
-                send_mail(mail_subject, message, settings.EMAIL_HOST_USER, [email])
+                send_mail(mail_subject, message,
+                          settings.EMAIL_HOST_USER, [email])
 
-                messages.success(request, 'Password reset email sent successfully')
+                messages.success(
+                    request, 'Password reset email sent successfully')
                 return redirect('login')
 
             except CustomUser.DoesNotExist:
                 messages.error(request, 'Email does not exist')
+        else:
+            for error in form.non_field_errors():
+                messages.error(request, error)
 
     form = ForgetPasswordForm()
-    return render(request, 'accounts/forgot_password.html', {'form': form})
-
+    return render(request, 'accounts/password_reset.html', {'form': form})
 
 
 def user_profile(request, id):
@@ -140,10 +143,14 @@ def update_profile(request, id):
     user = get_object_or_404(CustomUser, id=id)
     if request.method == 'POST':
         form = UpdateProfileForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Profile updated successfully')
-            return redirect('user_profile', id=id)
-    
-    form = UpdateProfileForm(instance=user)
+        try:
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Profile updated successfully')
+                return redirect('user_profile', id=id)
+        except ValidationError as e:
+            for error in e:
+                messages.error(request, error)
+    else:
+        form = UpdateProfileForm(instance=user)
     return render(request, 'accounts/update_profile.html', {'form': form})
